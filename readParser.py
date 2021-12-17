@@ -2,6 +2,9 @@ import re
 import csv
 import infoFill
 
+#to make input hidden
+from getpass import getpass
+
 #description:   parse through card reader string iput
 #input:         card reader string input
 #returns:       [lastname, FirstInitial, uniquename]
@@ -25,12 +28,12 @@ def writeToCSV(info, csvFile):
         file.writerow(info)
 
 
-x = input()
+# x = input()
+x = getpass(prompt='')
 while(x != quit):
     info = parseCardInfo(x)
     print(info)
     print(infoFill.getUniqnameInfo(info[-1]))
     writeToCSV(info, "signups.csv")
-
-    x = input()
-
+    # x = input()
+    x = getpass(prompt='')
