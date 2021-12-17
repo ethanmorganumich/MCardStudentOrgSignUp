@@ -1,4 +1,5 @@
 import re
+import csv
 #%B6008475547260813^MORGAN/E^2412120ETCMO?;6008475547260813=2412120=302135592?
 #Card Num          ^ LastName/First inital^ num+uniquname?;
 #%B6008473657049217^AGRAWAL/R^2305120RAGRAW?;6008473657049217=2305120=439169501?
@@ -19,10 +20,16 @@ def parseCardInfo(cardReaderInput):
     return lastName, firstInitial, uniquename
     
 
+def writeToCSV(info):
+    with open("signups.csv", mode='a') as signups:
+        signups = csv.writer(signups, delimiter=',')
+        signups.writerow(info)
 
 
 # print(parseCardInfo('%B6008475547260813^MORGAN/E^2412120ETCMO?;6008475547260813=2412120=302135592?'))
 x = input()
 while(x != quit):
-    print(parseCardInfo(x))
+    info = parseCardInfo(x)
+    print(info)
+    writeToCSV(info)
     x = input()
