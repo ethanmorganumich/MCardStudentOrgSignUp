@@ -1,13 +1,11 @@
 import re
 import csv
-#%B6008475547260813^MORGAN/E^2412120ETCMO?;6008475547260813=2412120=302135592?
-#Card Num          ^ LastName/First inital^ num+uniquname?;
-#%B6008473657049217^AGRAWAL/R^2305120RAGRAW?;6008473657049217=2305120=439169501?
-#%B6008473507106514^ZOU/H^2608120TINAZOU?;6008473507106514=2608120=349611241?
+import infoFill
 
-
+#description:   parse through card reader string iput
+#input:         card reader string input
+#returns:       [lastname, FirstInitial, uniquename]
 def parseCardInfo(cardReaderInput):
-
     #validation regex: 
     if not re.match("%B([0-9]){16}\^[A-Z]{2,26}\/[A-Z]\^([0-9]){7}([A-Z])*\?\;*", cardReaderInput):
         print("Reenter Card Info")
@@ -19,17 +17,20 @@ def parseCardInfo(cardReaderInput):
     uniquename = cardInfo[7]
     return lastName, firstInitial, uniquename
     
+#description:   Append list of inforamtion to csvfile
+#input:         list, string name of CSV file to append to
+def writeToCSV(info, csvFile):
+    with open(csvFile, mode='a') as file:
+        file = csv.writer(file, delimiter=',')
+        file.writerow(info)
 
-def writeToCSV(info):
-    with open("signups.csv", mode='a') as signups:
-        signups = csv.writer(signups, delimiter=',')
-        signups.writerow(info)
 
-
-# print(parseCardInfo('%B6008475547260813^MORGAN/E^2412120ETCMO?;6008475547260813=2412120=302135592?'))
 x = input()
 while(x != quit):
     info = parseCardInfo(x)
     print(info)
-    writeToCSV(info)
+    print(infoFill.getUniqnameInfo(info[-1]))
+    writeToCSV(info, "signups.csv")
+
     x = input()
+
